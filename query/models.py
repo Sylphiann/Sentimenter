@@ -25,3 +25,11 @@ class Sentiment(models.Model):
 
 class Sentence(models.Model):
     sentence = models.TextField()
+
+    def __str__(self):
+        return self.sentence
+
+
+def get_all_sentences():
+    queryset = Sentence.objects.all()
+    return queryset

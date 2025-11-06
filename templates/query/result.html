@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <h1>Result</h1>
+    <p><b>Query</b>: {{ query }}</p>
+    
+    {% if results %}
+
+        <ul style="list-style-type: disc; padding-left: 20px;">
+        {% for result, score in results %}
+
+            <li>{{ result }}</li>
+
+        {% endfor %}
+        </ul>
+
+    {% endif %}
+
+{% endblock %}

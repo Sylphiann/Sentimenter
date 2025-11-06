@@ -20,7 +20,7 @@
         <div style="flex: 1; border: 1px solid #ccc; padding: 20px; border-radius: 5px;">
             <h2>Import Sentences (.txt)</h2>
             <p>Upload a .txt file where each line is a new sentence instance. Sentiment will default to 'No Relation'.</p>
-            <form method="post" enctype="multipart/form-data" action="{% url 'tools' %}">
+            <form method="post" enctype="multipart/form-data" action="{% url 'admin-sentence' %}">
                 {% csrf_token %}
                 <input type="hidden" name="action" value="import_sentences">
                 <input type="file" name="sentences_file" accept=".txt" required style="margin-bottom: 10px;">
@@ -34,7 +34,7 @@
         <div style="flex: 1; border: 1px solid #ccc; padding: 20px; border-radius: 5px;">
             <h2>Export Sentences (JSON)</h2>
             <p>Download all existing sentences as a JSON file.</p>
-            <form method="post" action="{% url 'tools' %}">
+            <form method="post" action="{% url 'admin-sentence' %}">
                 {% csrf_token %}
                 <input type="hidden" name="action" value="export_sentences">
                 <button type="submit" class="button" style="background-color: #28a745; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer;">
@@ -46,7 +46,7 @@
         <div style="flex: 1; border: 1px solid #ccc; padding: 20px; border-radius: 5px;">
             <h2>Delete Sentences (JSON)</h2>
             <p>Deletes all existing sentences.</p>
-            <form method="post" action="{% url 'tools' %}">
+            <form method="post" action="{% url 'admin-sentence' %}">
                 {% csrf_token %}
                 <input type="hidden" name="action" value="delete_sentences">
                 <button type="submit" class="delete-button" style="background-color: #ee6565; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer;" onclick="return confirm('Are you absolutely sure you want to delete ALL model instances? This action cannot be undone.');"> Delete Sentences
@@ -67,7 +67,7 @@
                 padding-right: 20px;
             ">
                 
-                <form method="post" action="{% url 'tools' %}" style="flex-shrink: 0; margin-right: 10px;"> 
+                <form method="post" action="{% url 'admin-sentence' %}" style="flex-shrink: 0; margin-right: 10px;"> 
                     {% csrf_token %}
                     <input type="hidden" name="action" value="delete_a_sentence">
                     <input type="hidden" name="sentence_id" value="{{ sentence_id }}"> 
@@ -88,7 +88,7 @@
                 </form>
                 
                 <span style="flex-grow: 1; align-self: center;">
-                    {{ sentence_id }}: {{ sentence_text }}
+                    {{ sentence_text }}
                 </span>
                 
             </li>

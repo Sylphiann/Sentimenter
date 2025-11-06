@@ -43,7 +43,7 @@ def admin_tools_view(request):
             else:
                 context['error'] = 'No file was uploaded for import.'
             
-            return redirect('tools')
+            return redirect('admin-sentence')
 
 
         elif action == 'export_sentences':
@@ -59,7 +59,7 @@ def admin_tools_view(request):
             deleted_count, _ = all_sentences.delete()
             context['success'] = f'Successfully deleted {deleted_count} sentences.'
 
-            return redirect('tools')
+            return redirect('admin-sentence')
         
 
         elif action == 'delete_a_sentence':
@@ -72,7 +72,7 @@ def admin_tools_view(request):
             except Sentence.DoesNotExist:
                 context['error'] = f"Error: Sentence with ID {sentence_id} not found."
 
-            return redirect('tools')
+            return redirect('admin-sentence')
         
         return render(request, 'config/config.html', context)
     

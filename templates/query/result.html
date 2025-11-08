@@ -8,9 +8,9 @@
     {% if results %}
 
         <ul style="list-style-type: disc; padding-left: 20px;">
-        {% for result, score in results %}
+        {% for result_id, result, score in results %}
 
-            <li>{{ result }}</li>
+            <li>{{ result }}: {{ result_id }}</li>
 
         {% endfor %}
         </ul>

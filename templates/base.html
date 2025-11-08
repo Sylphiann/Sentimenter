@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Hello World Example</title>
+    <meta charset="UTF-8">
+    <title>{% block title %}My App{% endblock %}</title>
+
+    {% load static %}
+    {% block page_css %}{% endblock %}
 </head>
 <body>
-    {% block content %}
-    {% endblock %}
-</body>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    </body>
 </html>

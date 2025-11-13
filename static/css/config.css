@@ -49,7 +49,6 @@ img, svg {
 }
 
 a {
-    color: #3b76e1;
     text-decoration: none;
 }
 
@@ -143,4 +142,18 @@ a {
 
 a {
     text-decoration:none;    
+}
+
+.table-fixed-layout {
+    table-layout: fixed; 
+    width: 100%; 
+}
+
+.table-fixed-layout td {
+    white-space: normal; 
+}
+
+.text-break {
+    word-break: break-word;
+    overflow-wrap: break-word;
 }

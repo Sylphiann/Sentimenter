@@ -44,7 +44,6 @@ def get_all_sentences():
 
 def get_sentiment_if_exists(query: Query, sentence: Sentence):
     try:
-        print(f"{type(query)} : {type(sentence)}")
         sentiment = Sentiment.objects.get(
             query = query,
             sentence = sentence
@@ -67,4 +66,13 @@ def get_sentence_by_id(sentence_id: int):
         sentence = Sentence.objects.get(pk=sentence_id)
         return sentence   
     except Sentence.DoesNotExist:
+        return None
+    
+
+def delete_sentiment_by_id(sentiment_id: int):
+    try:
+        sentiment = Sentiment.objects.get(pk=sentiment_id)
+        sentiment.delete()
+        
+    except Sentiment.DoesNotExist:
         return None

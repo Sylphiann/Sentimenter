@@ -71,31 +71,38 @@
                             <table class="table project-list-table align-middle table-borderless table-fixed-layout">
                                 <thead>
                                     <tr>
-                                        <th scope="col" style="width: 70%;">Sentence(s)</th>
-                                        <th scope="col" style="width: 30%;" class="text-center">Action</th>
+                                        <th scope="col" style="width: 84%;">Sentence(s)</th>
+                                        <th scope="col" style="width: 16%;" class="text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% if sentiment_results %}
-                                    {% for sentiment_result_id, sentiment_result, score in sentiment_results %}
+                                    {% for sentiment_id, sentiment_result, sentiment_relation in sentiment_results %}
                                     <tr>
-                                        <td class="text-break">{{ sentiment_result }}</td>
-                                        <td class="d-flex justify-content-center align-items-center">
-                                            {% csrf_token %}
-                                            <form method="post" action="{% url 'main' %}">
-                                                <input type="hidden" name="query_id" value="delete_sentences">
-                                                <input type="hidden" name="sentence_id" value="{{ sentiment_result_id }}">
+                                        <td class="text-break">{{ sentiment_result }} : {{ sentiment_relation }}</td>
+                                        <td class="d-flex justify-content-end">
+                                            {% if sentiment_relation == "agreement" %}
+                                            <button type="submit" class="btn btn-success" disabled> 
+                                                Agree
+                                            </button>
 
-                                                <button type="submit" class="btn btn-outline-success"> 
-                                                    Agree
-                                                </button>
+                                            {% elif sentiment_relation == "disagreement" %}
+                                            <button type="submit" class="btn btn-danger" disabled> 
+                                                Disagree
+                                            </button>
 
-                                                <button type="submit" class="btn btn-outline-danger"> 
-                                                    Disagree
-                                                </button>
+                                            {% elif sentiment_relation == "no_relation" %}
+                                            <button type="submit" class="btn btn-secondary" disabled> 
+                                                Neutral
+                                            </button>
+                                            {% endif %}
 
-                                                <button type="submit" class="btn btn-outline-secondary"> 
-                                                    Neutral
+                                            <form method="post" action="{% url 'remove-sentiment' %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="sentiment_id" value="{{ sentiment_id }}">
+                                                <input type="hidden" name="user_query" value="{{ query }}">
+                                                <button type="submit" class="btn btn-outline-secondary ms-2"> 
+                                                    Undo    
                                                 </button>
                                             </form>
                                         </td>     

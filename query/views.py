@@ -21,7 +21,6 @@ def search_result(request):
         )
 
         results = search_sentences_bm25(user_query, top_k=10)
-
         if len(results) > 0:
             for result in results:
                 sentiment: Sentiment = get_sentiment_if_exists(query, result[1])
@@ -40,7 +39,6 @@ def search_result(request):
             'sentence_results': sentence_results,
             'sentiment_results': sentiment_results
         }
-
     return render(request, 'query/result.html', context)
 
 
@@ -52,14 +50,13 @@ def set_sentiment(request):
     get_query = get_query_if_exists(user_query)
     if get_query:
         get_sentence = get_sentence_by_id(sentence_id)
-        sentiment_instance = Sentiment.objects.create(
+        Sentiment.objects.create(
             query=get_query,
             sentence=get_sentence,
             relation=sentiment_value
         ) 
     else:
         raise Query.DoesNotExist(f"Instance query:\"{user_query}\" does not exist. Probably an encoding problem.")
-
 
     base_url = reverse('query')
     query_params = {'q': user_query}

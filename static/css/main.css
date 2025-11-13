@@ -1,35 +1,39 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 40px;
-    background-color: #f4f4f4;
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100%;
+    background: #eee;
+}
+
+main {
+    flex-grow: 1;
+    height: calc(100vh - 240px);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .container {
-    max-width: 600px;
-    margin: auto;
+    max-width: 1200px;
     background: #fff;
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
-    color: #333;
-    text-align: center;
-}
-
 form {
     display: flex;
     gap: 10px;
-    margin-top: 20px;
+    margin-top: 0;
 }
 
 input[type="text"] {
     flex-grow: 1;
-    padding: 10px;
+    padding: 12px 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 20px;
 }
 
 button {

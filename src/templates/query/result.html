@@ -2,115 +2,123 @@
 {% load static %}
 
 {% block page_css %}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.0/css/boxicons.min.css" integrity="sha512-pVCM5+SN2+qwj36KonHToF2p1oIvoU3bsqxphdOIWMYmgr4ZqD3t5DjKvvetKhXGc/ZG5REYTT6ltKfExEei/Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{% static 'css/config.css' %}">
 {% endblock %}
 
-
 {% block content %}
-    <div class="container mt-3 pt-1">
-
-        <h5 class="card-title ">Query: <span class="text-muted fw-normal ms-2">{{query}}</span></h5>
-
-        <div class="container-result">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="table-responsive">
-                        <table class="table project-list-table align-middle table-borderless table-fixed-layout">
-                            <thead>
-                                <tr>
-                                    <th scope="col" style="width: 70%;">Result(s)</th>
-                                    <th scope="col" style="width: 30%;" class="text-center">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% if sentence_results %}
-                                {% for sentence_result_id, sentence_result, score in sentence_results %}
-                                <tr>
-                                    <td class="text-break">{{ sentence_result }}</td>
-                                    <td class="d-flex justify-content-center align-items-center">
-                                        <form method="post" action="{% url 'set-sentiment' %}">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="user_query" value="{{ query }}">
-                                            <input type="hidden" name="sentence_id" value="{{ sentence_result_id }}">
-
-                                            <button type="submit" class="btn btn-outline-success" name="sentiment_value" value="agreement"> 
-                                                Agree
-                                            </button>
-
-                                            <button type="submit" class="btn btn-outline-danger" name="sentiment_value" value="disagreement"> 
-                                                Disagree
-                                            </button>
-
-                                            <button type="submit" class="btn btn-outline-secondary" name="sentiment_value" value="no_relation"> 
-                                                Neutral
-                                            </button>
-                                        </form>
-                                    </td>     
-                                </tr>
-                                {% endfor %}
-                                {% endif %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+<div class="admin-container">
+    <div class="container">
+        <div class="page-header">
+            <p class="page-title">Query: <span class="fw-normal">{{ query }}</span></p>
         </div>
 
-        <h5 class="card-title mt-3">Sentiment set</h5>
+        {% if sentence_results %}
+        <div class="data-section">
+            <div class="section-header">
+                <h2 class="section-title">Search Results</h2>
+                <span class="section-count">({{ sentence_results|length }})</span>
+            </div>
 
-        <div class="container-result">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="table-responsive">
-                        <table class="table project-list-table align-middle table-borderless table-fixed-layout">
-                            <thead>
-                                <tr>
-                                    <th scope="col" style="width: 84%;">Sentence(s)</th>
-                                    <th scope="col" style="width: 16%;" class="text-center">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% if sentiment_results %}
-                                {% for sentiment_id, sentiment_result, sentiment_relation in sentiment_results %}
-                                <tr>
-                                    <td class="text-break">{{ sentiment_result }}</td>
-                                    <td class="d-flex justify-content-end">
-                                        {% if sentiment_relation == "agreement" %}
-                                        <button type="submit" class="btn btn-success" disabled> 
-                                            Agree
-                                        </button>
-
-                                        {% elif sentiment_relation == "disagreement" %}
-                                        <button type="submit" class="btn btn-danger" disabled> 
-                                            Disagree
-                                        </button>
-
-                                        {% elif sentiment_relation == "no_relation" %}
-                                        <button type="submit" class="btn btn-secondary" disabled> 
-                                            Neutral
-                                        </button>
-                                        {% endif %}
-
-                                        <form method="post" action="{% url 'remove-sentiment' %}">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="sentiment_id" value="{{ sentiment_id }}">
-                                            <input type="hidden" name="user_query" value="{{ query }}">
-                                            <button type="submit" class="btn btn-outline-secondary ms-2"> 
-                                                Undo    
-                                            </button>
-                                        </form>
-                                    </td>     
-                                </tr>
-                                {% endfor %}
-                                {% endif %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+            <div class="table-wrapper">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Result</th>
+                            <th style="width: 300px;" class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sentence_result_id, sentence_result, score in sentence_results %}
+                        <tr>
+                            <td class="sentence-text">{{ sentence_result }}</td>
+                            <td>
+                                <form method="post" action="{% url 'set-sentiment' %}" class="d-flex gap-2 justify-content-center">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="user_query" value="{{ query }}">
+                                    <input type="hidden" name="sentence_id" value="{{ sentence_result_id }}">
+                                    
+                                    <button type="submit" 
+                                            class="btn btn-sm btn-success" 
+                                            name="sentiment_value" 
+                                            value="agreement">
+                                        Agree
+                                    </button>
+                                    <button type="submit" 
+                                            class="btn btn-sm btn-danger" 
+                                            name="sentiment_value" 
+                                            value="disagreement">
+                                        Disagree
+                                    </button>
+                                    <button type="submit" 
+                                            class="btn btn-sm btn-secondary" 
+                                            name="sentiment_value" 
+                                            value="no_relation">
+                                        Neutral
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
+        {% endif %}
+
+        {% if sentiment_results %}
+        <div class="data-section">
+            <div class="section-header">
+                <h2 class="section-title">Sentiment Set</h2>
+                <span class="section-count">({{ sentiment_results|length }})</span>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Sentence</th>
+                            <th style="width: 200px;" class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sentiment_id, sentiment_result, sentiment_relation in sentiment_results %}
+                        <tr>
+                            <td class="sentence-text">{{ sentiment_result }}</td>
+                            <td>
+                                <div class="d-flex gap-2 justify-content-center align-items-center">
+                                    {% if sentiment_relation == "agreement" %}
+                                        <span class="badge bg-success">Agree</span>
+                                    {% elif sentiment_relation == "disagreement" %}
+                                        <span class="badge bg-danger">Disagree</span>
+                                    {% elif sentiment_relation == "no_relation" %}
+                                        <span class="badge bg-secondary">Neutral</span>
+                                    {% endif %}
+                                    
+                                    <form method="post" action="{% url 'remove-sentiment' %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="sentiment_id" value="{{ sentiment_id }}">
+                                        <input type="hidden" name="user_query" value="{{ query }}">
+                                        <button type="submit" class="btn btn-sm btn-outline-secondary">
+                                            Undo
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if not sentence_results and not sentiment_results %}
+        <div class="data-section">
+            <div class="text-center text-muted py-5">
+                <p>No results found for your query</p>
+            </div>
+        </div>
+        {% endif %}
     </div>
+</div>
 {% endblock %}

@@ -2,20 +2,27 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseForbidden
 from django.contrib.admin.views.decorators import staff_member_required
 import json
-from query.models import Sentence, Query, Sentiment, get_query_by_id, delete_sentiment_by_id
+from query.models import (
+    get_all_sentences,
+    create_sentences_bulk,
+    delete_sentence_by_id,
+    delete_all_sentences,
+    get_all_queries,
+    delete_query_by_id,
+    get_all_sentiments,
+    delete_sentiment_by_id,
+    delete_all_sentiments,
+    delete_all_queries
+)
 
 
 @staff_member_required
 def admin_sentence_view(request):
-    """
-    Handles both bulk import of sentences from a .txt file and 
-    export of all Sentence instances as JSON. Accessible only to superusers.
-    """
     if not request.user.is_superuser:
         return HttpResponseForbidden("You do not have the required permissions of a superuser status to access this tool.")
 
     context = {}
-    context['sentence_list'] = list(Sentence.objects.values_list('id', 'sentence'))
+    context['sentence_list'] = list(get_all_sentences().values_list('id', 'sentence'))
     
     if request.method == 'POST':
         action = request.POST.get('action')
@@ -29,14 +36,13 @@ def admin_sentence_view(request):
                 else:
                     try:
                         file_data = uploaded_file.read().decode('utf-8')
-                        sentences = []
-                        for line in file_data.splitlines():
-                            text = line.strip()
-                            if text:
-                                sentences.append(Sentence(sentence=text))
-
-                        Sentence.objects.bulk_create(sentences)
-                        context['success'] = f'Successfully imported {len(sentences)} sentences.'
+                        sentences_data = [line.strip() for line in file_data.splitlines() if line.strip()]
+                        
+                        if sentences_data:
+                            create_sentences_bulk(sentences_data)
+                            context['success'] = f'Successfully imported {len(sentences_data)} sentences.'
+                        else:
+                            context['error'] = 'No valid sentences found in the file.'
                     
                     except Exception as e:
                         context['error'] = f'An error occurred during import: {e}'
@@ -45,19 +51,15 @@ def admin_sentence_view(request):
         
 
         elif action == 'delete_sentences':
-            all_sentences = Sentence.objects.all()
-            deleted_count, _ = all_sentences.delete()
+            deleted_count = delete_all_sentences()
             context['success'] = f'Successfully deleted {deleted_count} sentences.'
         
 
         elif action == 'delete_a_sentence':
-            try:
-                sentence_id = request.POST.get('sentence_id')
-                sentence = Sentence.objects.get(id=sentence_id)
-                sentence.delete()
+            sentence_id = request.POST.get('sentence_id')
+            if delete_sentence_by_id(sentence_id):
                 context['success'] = f"Sentence with ID {sentence_id} successfully deleted."
-
-            except Sentence.DoesNotExist:
+            else:
                 context['error'] = f"Error: Sentence with ID {sentence_id} not found."
         
         return redirect('admin-sentence')
@@ -68,17 +70,13 @@ def admin_sentence_view(request):
 
 @staff_member_required
 def admin_sentiment_view(request):
-    """
-    Handles both bulk import of sentences from a .txt file and 
-    export of all Sentence instances as JSON. Accessible only to superusers.
-    """
     if not request.user.is_superuser:
         return HttpResponseForbidden("You do not have the required permissions of a superuser status to access this tool.")
 
     context = {}
     context['all_sentiments'] = []
 
-    queries = Query.objects.all().prefetch_related('related_queries')
+    queries = get_all_queries()
     
     for query in queries:
         sentence_relations = []
@@ -101,7 +99,7 @@ def admin_sentiment_view(request):
     if request.method == 'POST':
         action = request.POST.get('action')
         if action == "export_sentiments":
-            sentiments = Sentiment.objects.all().select_related('sentence', 'query')
+            sentiments = get_all_sentiments()
             data_list = []
 
             for sentiment_obj in sentiments:
@@ -118,13 +116,12 @@ def admin_sentiment_view(request):
             return response
         
         elif action == "delete_all_sentiments":
-            Sentiment.objects.all().delete()
-            Query.objects.all().delete()
+            delete_all_sentiments()
+            delete_all_queries()
 
         elif action == "delete_a_query":
             query_id = request.POST.get('query_id')
-            delete_query = get_query_by_id(query_id)
-            delete_query.delete()
+            delete_query_by_id(query_id)
 
         elif action == "remove_a_sentiment":
             sentiment_id = request.POST.get('sentiment_id')

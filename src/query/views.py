@@ -2,9 +2,16 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from urllib.parse import urlencode
 from .bm25 import search_sentences_bm25
-from .models import Query, Sentiment, get_sentiment_if_exists, get_query_if_exists, get_sentence_by_id, delete_sentiment_by_id
+from .models import (
+    Query,
+    get_or_create_query,
+    get_query_by_text,
+    get_sentence_by_id,
+    get_sentiment_by_query_and_sentence,
+    create_sentiment,
+    delete_sentiment_by_id
+)
 
-# Create your views here.
 
 def main_view(request):
     return render(request, 'main.html')
@@ -16,14 +23,12 @@ def search_result(request):
     context = {}
 
     if user_query:
-        new_query, _ = Query.objects.get_or_create(
-            query=user_query
-        )
+        new_query, _ = get_or_create_query(user_query)
 
         results = search_sentences_bm25(user_query, top_k=10)
         if len(results) > 0:
             for result in results:
-                sentiment: Sentiment = get_sentiment_if_exists(new_query, result[1])
+                sentiment = get_sentiment_by_query_and_sentence(new_query, result[1])
 
                 if sentiment:
                     sentiment_results.append((
@@ -47,14 +52,13 @@ def set_sentiment(request):
     sentence_id = request.POST.get('sentence_id')
     sentiment_value = request.POST.get('sentiment_value')
 
-    get_query = get_query_if_exists(user_query)
-    if get_query:
-        get_sentence = get_sentence_by_id(sentence_id)
-        Sentiment.objects.create(
-            query=get_query,
-            sentence=get_sentence,
-            relation=sentiment_value
-        ) 
+    query = get_query_by_text(user_query)
+    if query:
+        sentence = get_sentence_by_id(sentence_id)
+        if sentence:
+            create_sentiment(query, sentence, sentiment_value)
+        else:
+            raise Query.DoesNotExist(f"Sentence with ID {sentence_id} does not exist.")
     else:
         raise Query.DoesNotExist(f"Instance query:\"{user_query}\" does not exist. Probably an encoding problem.")
 

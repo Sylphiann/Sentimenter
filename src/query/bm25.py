@@ -1,8 +1,8 @@
 import bm25s
-from .models import Sentence
+from .models import get_all_sentences
 
 def search_sentences_bm25(query: str, top_k: int = 15):
-    all_sentences = Sentence.objects.all()
+    all_sentences = get_all_sentences()
     corpus = [sentence.sentence for sentence in all_sentences]
 
     if not corpus:

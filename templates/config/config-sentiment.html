@@ -78,8 +78,8 @@
     </div>
 
 
-    {% if all_sentiments %}
     {% for query_entry in all_sentiments %}
+    {% if query_entry.related_entries %}
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-6">
@@ -124,7 +124,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% if query_entry.related_entries %}
                                 {% for relation in query_entry.related_entries %}
                                 <tr>
                                     <td class="word-wrap-cell text-break">{{ relation.sentence_text }}</td>
@@ -168,7 +167,6 @@
                                     </td>     
                                 </tr>
                                 {% endfor %}
-                                {% endif %}
                             </tbody>
                         </table>
                     </div>
@@ -176,6 +174,6 @@
             </div>
         </div>
     </div>
-    {% endfor %}
     {% endif %}
+    {% endfor %}
 {% endblock %}

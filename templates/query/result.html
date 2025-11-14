@@ -76,7 +76,7 @@
                                 {% if sentiment_results %}
                                 {% for sentiment_id, sentiment_result, sentiment_relation in sentiment_results %}
                                 <tr>
-                                    <td class="text-break">{{ sentiment_result }} : {{ sentiment_relation }}</td>
+                                    <td class="text-break">{{ sentiment_result }}</td>
                                     <td class="d-flex justify-content-end">
                                         {% if sentiment_relation == "agreement" %}
                                         <button type="submit" class="btn btn-success" disabled> 

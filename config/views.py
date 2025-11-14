@@ -2,11 +2,11 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseForbidden
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.serializers import serialize
-from query.models import Sentence
+from query.models import Sentence, Query, Sentiment, get_query_by_id
 
 
 @staff_member_required
-def admin_tools_view(request):
+def admin_sentence_view(request):
     """
     Handles both bulk import of sentences from a .txt file and 
     export of all Sentence instances as JSON. Accessible only to superusers.
@@ -44,15 +44,7 @@ def admin_tools_view(request):
                 context['error'] = 'No file was uploaded for import.'
             
             return redirect('admin-sentence')
-
-
-        elif action == 'export_sentences':
-            data = serialize('json', Sentence.objects.all(), fields=('text', 'sentiment'))
-            response = HttpResponse(data, content_type='application/json')
-            response['Content-Disposition'] = 'attachment; filename="all_sentences.json"'
-            
-            return response
-
+        
 
         elif action == 'delete_sentences':
             all_sentences = Sentence.objects.all()
@@ -74,6 +66,45 @@ def admin_tools_view(request):
 
             return redirect('admin-sentence')
         
-        return render(request, 'config/config.html', context)
+        return render(request, 'config/config-sentence.html', context)
     
-    return render(request, 'config/config.html', context)
+    return render(request, 'config/config-sentence.html', context)
+
+
+
+@staff_member_required
+def admin_sentiment_view(request):
+    """
+    Handles both bulk import of sentences from a .txt file and 
+    export of all Sentence instances as JSON. Accessible only to superusers.
+    """
+    if not request.user.is_superuser:
+        return HttpResponseForbidden("You do not have the required permissions of a superuser status to access this tool.")
+
+    context = {}
+    context['all_sentiments'] = []
+
+    queries = Query.objects.all().prefetch_related('related_queries')
+    
+    for query in queries:
+        sentence_relations = []
+        for sentiment_object in query.related_queries.all():
+            sentence_relations.append({
+                'sentence_id': sentiment_object.sentence.id,
+                'sentence_text': sentiment_object.sentence.sentence,
+                'relation': sentiment_object.relation,
+                'sentiment_id': sentiment_object.id,
+            })
+        
+        query_entry = {
+            'query_id': query.id,
+            'query_text': query.query,
+            'related_entries': sentence_relations,
+        }
+        
+        context['all_sentiments'].append(query_entry)
+
+    if request.method == 'POST':
+        action = request.POST.get('action')
+    
+    return render(request, 'config/config-sentiment.html', context)

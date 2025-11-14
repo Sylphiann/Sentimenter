@@ -16,14 +16,14 @@ def search_result(request):
     context = {}
 
     if user_query:
-        query, _ = Query.objects.get_or_create(
-            sentence=user_query
+        new_query, _ = Query.objects.get_or_create(
+            query=user_query
         )
 
         results = search_sentences_bm25(user_query, top_k=10)
         if len(results) > 0:
             for result in results:
-                sentiment: Sentiment = get_sentiment_if_exists(query, result[1])
+                sentiment: Sentiment = get_sentiment_if_exists(new_query, result[1])
 
                 if sentiment:
                     sentiment_results.append((

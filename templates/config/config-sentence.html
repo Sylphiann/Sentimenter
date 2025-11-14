@@ -8,27 +8,13 @@
     <link rel="stylesheet" href="{% static 'css/config.css' %}">
 {% endblock %}
 
-<!-- <div class="admin-tool-card">
-    <h2>Export Sentences (JSON)</h2>
-    <p>Download all existing sentences as a JSON file.</p>
-    <form method="post" action="{% url 'admin-sentence' %}">
-        {% csrf_token %}
-        <input type="hidden" name="action" value="export_sentences">
-        <button type="submit" class="button success-button">
-            Export Sentences
-        </button>
-    </form>
-</div> -->
 
 {% block navbar_search %}
 <div class="d-flex ms-auto">
-    <a href="{% url 'main' %}" class="btn btn-outline-light fw-normal d-flex me-2" role="button">
+    <a href="{% url 'admin-sentence' %}" class="btn btn-outline-light fw-normal d-flex me-2" role="button">
         Sentence
     </a>
-    <a href="{% url 'main' %}" class="btn btn-outline-light fw-normal d-flex me-2" role="button">
-        Query
-    </a>
-    <a href="{% url 'main' %}" class="btn btn-outline-light fw-normal d-flex me-4" role="button">
+    <a href="{% url 'admin-sentiment' %}" class="btn btn-outline-light fw-normal d-flex me-4" role="button">
         Sentiment
     </a>
 </div>

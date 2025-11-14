@@ -1,6 +1,6 @@
 # Sentimenter
 
-A Django-based sentiment labelling and analysis application with query functionality.
+A Django-based sentiment label annotator application with query functionality.
 
 ## Prerequisites
 
@@ -80,6 +80,20 @@ A Django-based sentiment labelling and analysis application with query functiona
    ```
 
 8. The application will be available at `http://localhost:8000`.
+
+9. **Customizing the Search Algorithm**: You can modify the search algorithm implementation by editing `src/query/bm25.py`. This file contains the `search_sentences_bm25()` function that handles the BM25-based search functionality.
+
+## Search Engine
+
+The application uses the [bm25s](https://bm25s.github.io/) package for fast and efficient BM25-based search functionality. The search engine:
+
+- Indexes all sentences from the database using BM25 tokenization
+- Retrieves the top-k most relevant sentences based on user queries. It is currently set with `top_k=15`
+- Uses sparse matrix computation for efficient ranking and retrieval
+
+The search implementation is located in `src/query/bm25.py` and can be customized to adjust BM25 parameters, change the ranking algorithm variant, or modify the tokenization process.
+
+For detailed documentation on the bm25s package, including available BM25 variants (Robertson, ATIRE, BM25L, BM25+, Lucene) and advanced configuration options, visit the [bm25s documentation](https://bm25s.github.io/).
 
 ## Accessing the Admin Panel
 

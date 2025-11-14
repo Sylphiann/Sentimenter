@@ -1,0 +1,159 @@
+body{
+    margin-top:20px;
+    background-color:#eee;
+}
+
+.container-result {
+    margin-top: 30px;
+}
+
+.project-list-table {
+    border-collapse: separate;
+    border-spacing: 0 12px
+}
+
+.project-list-table tr {
+    background-color: #fff
+}
+
+.table-nowrap td, .table-nowrap th {
+    white-space: nowrap;
+}
+
+.table-borderless>:not(caption)>*>* {
+    border-bottom-width: 0;
+}
+
+.table>:not(caption)>*>* {
+    padding: 0.75rem 0.75rem;
+    background-color: var(--bs-table-bg);
+    border-bottom-width: 1px;
+    box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+}
+
+.avatar-sm {
+    height: 2rem;
+    width: 2rem;
+}
+
+.rounded-circle {
+    border-radius: 50%!important;
+}
+
+.me-2 {
+    margin-right: 0.5rem!important;
+}
+
+img, svg {
+    vertical-align: middle;
+}
+
+a {
+    text-decoration: none;
+}
+
+.badge-soft-danger {
+    color: #f56e6e !important;
+    background-color: rgba(245,110,110,.1);
+}
+
+.badge-soft-success {
+    color: #63ad6f !important;
+    background-color: rgba(99,173,111,.1);
+}
+
+.badge-soft-primary {
+    color: #3b76e1 !important;
+    background-color: rgba(59,118,225,.1);
+}
+
+.badge-soft-info {
+    color: #57c9eb !important;
+    background-color: rgba(87,201,235,.1);
+}
+
+.avatar-title {
+    align-items: center;
+    background-color: #3b76e1;
+    color: #fff;
+    display: flex;
+    font-weight: 500;
+    height: 100%;
+    justify-content: center;
+    width: 100%;
+}
+
+.bg-soft-primary {
+    background-color: rgba(59,118,225,.25)!important;
+}
+
+.shadow {
+    box-shadow: 0 0 3px rgb(53 64 78 / 20%) !important;
+}
+
+.rounded {
+    border-radius: 5px !important;
+}
+
+.bg-light {
+    background-color: #f7f8fa !important;
+}
+
+.bg-primary, .btn-primary, .btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active, .btn-outline-primary.active, .btn-outline-primary.focus, .btn-outline-primary:not(:disabled):not(.disabled):active, .badge-primary, .nav-pills .nav-link.active, .pagination .active a, .custom-control-input:checked ~ .custom-control-label:before, #preloader #status .spinner > div, .social-icon li a:hover, .back-to-top:hover, .back-to-home a, ::selection, #topnav .navbar-toggle.open span:hover, .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots.clickable .owl-dot:hover span, .watch-video a .play-icon-circle, .sidebar .widget .tagcloud > a:hover, .flatpickr-day.selected, .flatpickr-day.selected:hover, .tns-nav button.tns-nav-active, .form-check-input.form-check-input:checked {
+    background-color: #6dc77a !important;
+}
+
+.badge {
+    padding: 5px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+    font-size: 12px;
+}
+
+.btn-primary, .btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active, .btn-outline-primary.active, .btn-outline-primary.focus, .btn-outline-primary:not(:disabled):not(.disabled):active {
+    box-shadow: 0 3px 7px rgb(109 199 122 / 50%) !important;
+}
+
+.btn-primary, .btn-outline-primary, .btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active, .btn-outline-primary.active, .btn-outline-primary.focus, .btn-outline-primary:not(:disabled):not(.disabled):active, .bg-soft-primary .border, .alert-primary, .alert-outline-primary, .badge-outline-primary, .nav-pills .nav-link.active, .pagination .active a, .form-group .form-control:focus, .form-group .form-control.active, .custom-control-input:checked ~ .custom-control-label:before, .custom-control-input:focus ~ .custom-control-label::before, .form-control:focus, .social-icon li a:hover, #topnav .has-submenu.active.active .menu-arrow, #topnav.scroll .navigation-menu > li:hover > .menu-arrow, #topnav.scroll .navigation-menu > li.active > .menu-arrow, #topnav .navigation-menu > li:hover > .menu-arrow, .flatpickr-day.selected, .flatpickr-day.selected:hover, .form-check-input:focus, .form-check-input.form-check-input:checked, .container-filter li.active, .container-filter li:hover {
+    border-color: #6dc77a !important;
+}
+
+.bg-primary, .btn-primary, .btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active, .btn-outline-primary.active, .btn-outline-primary.focus, .btn-outline-primary:not(:disabled):not(.disabled):active, .badge-primary, .nav-pills .nav-link.active, .pagination .active a, .custom-control-input:checked ~ .custom-control-label:before, #preloader #status .spinner > div, .social-icon li a:hover, .back-to-top:hover, .back-to-home a, ::selection, #topnav .navbar-toggle.open span:hover, .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots.clickable .owl-dot:hover span, .watch-video a .play-icon-circle, .sidebar .widget .tagcloud > a:hover, .flatpickr-day.selected, .flatpickr-day.selected:hover, .tns-nav button.tns-nav-active, .form-check-input.form-check-input:checked {
+    background-color: #6dc77a !important;
+}
+
+.btn {
+    padding: 8px 20px;
+    outline: none;
+    text-decoration: none;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    transition: all 0.3s;
+    font-weight: 600;
+    border-radius: 5px;
+}
+
+.btn-primary {
+    background-color: #6dc77a !important;
+    border: 1px solid #6dc77a !important;
+    color: #fff !important;
+    box-shadow: 0 3px 7px rgb(109 199 122 / 50%);
+}
+
+a {
+    text-decoration:none;    
+}
+
+.table-fixed-layout {
+    table-layout: fixed; 
+    width: 100%; 
+}
+
+.table-fixed-layout td {
+    white-space: normal; 
+}
+
+.text-break {
+    word-break: break-word;
+    overflow-wrap: break-word;
+}

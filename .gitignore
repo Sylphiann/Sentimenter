@@ -1,5 +1,0 @@
-.env/
-db.sqlite3
-.dummy.txt
-__pycache__/
-*.pyc

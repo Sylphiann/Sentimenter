@@ -1,0 +1,23 @@
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environments
+venv/
+.venv/
+
+# Git repo
+.git/
+.gitignore
+
+# SQLite DB
+db.sqlite3
+
+# Media & static (for dev)
+media/
+staticfiles/
+
+# OS files
+.DS_Store
+*.log

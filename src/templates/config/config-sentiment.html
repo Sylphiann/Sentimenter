@@ -56,7 +56,7 @@
                             <input type="hidden" name="action" value="delete_all_sentiments">
                             <button type="submit" 
                                     class="btn btn-danger w-100"
-                                    onclick="return confirm('Are you absolutely sure you want to delete ALL sentiment instances? This will also remove all your queries, and it cannot be undone.');">
+                                    data-confirm="Are you absolutely sure you want to delete ALL sentiment instances? This will also remove all your queries, and it cannot be undone.">
                                 Delete All Sentiments
                             </button>
                         </form>
@@ -76,7 +76,7 @@
                         <input type="hidden" name="query_id" value="{{ query_entry.query_id }}">
                         <button type="submit" 
                                 class="btn btn-sm btn-outline-danger"
-                                onclick="return confirm('Are you sure you want to delete this query? All sentiments under this query will also be deleted. This action cannot be undone.');"
+                                data-confirm="Are you sure you want to delete this query? All sentiments under this query will also be deleted. This action cannot be undone."
                                 title="Delete Query">
                             Delete Query
                         </button>

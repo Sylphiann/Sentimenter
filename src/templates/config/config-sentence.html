@@ -63,7 +63,7 @@
                             <input type="hidden" name="action" value="delete_sentences">
                             <button type="submit" 
                                     class="btn btn-danger w-100" 
-                                    onclick="return confirm('Are you absolutely sure you want to delete ALL sentences? This action cannot be undone.');">
+                                    data-confirm="Are you absolutely sure you want to delete ALL sentences? This action cannot be undone.">
                                 Delete All Sentences
                             </button>
                         </form>
@@ -100,7 +100,7 @@
                                         <input type="hidden" name="sentence_id" value="{{ sentence_id }}">
                                         <button type="submit" 
                                                 class="btn btn-sm btn-outline-danger"
-                                                onclick="return confirm('Are you sure you want to delete this sentence? This action cannot be undone.');"
+                                                data-confirm="Are you sure you want to delete this sentence? This action cannot be undone."
                                                 title="Delete">
                                             Delete
                                         </button>

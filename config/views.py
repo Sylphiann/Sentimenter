@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseForbidden
 from django.contrib.admin.views.decorators import staff_member_required
-from django.core.serializers import serialize
-from query.models import Sentence, Query, Sentiment, get_query_by_id
+import json
+from query.models import Sentence, Query, Sentiment, get_query_by_id, delete_sentiment_by_id
 
 
 @staff_member_required
@@ -42,16 +42,12 @@ def admin_sentence_view(request):
                         context['error'] = f'An error occurred during import: {e}'
             else:
                 context['error'] = 'No file was uploaded for import.'
-            
-            return redirect('admin-sentence')
         
 
         elif action == 'delete_sentences':
             all_sentences = Sentence.objects.all()
             deleted_count, _ = all_sentences.delete()
             context['success'] = f'Successfully deleted {deleted_count} sentences.'
-
-            return redirect('admin-sentence')
         
 
         elif action == 'delete_a_sentence':
@@ -63,10 +59,8 @@ def admin_sentence_view(request):
 
             except Sentence.DoesNotExist:
                 context['error'] = f"Error: Sentence with ID {sentence_id} not found."
-
-            return redirect('admin-sentence')
         
-        return render(request, 'config/config-sentence.html', context)
+        return redirect('admin-sentence')
     
     return render(request, 'config/config-sentence.html', context)
 
@@ -106,5 +100,36 @@ def admin_sentiment_view(request):
 
     if request.method == 'POST':
         action = request.POST.get('action')
-    
+        if action == "export_sentiments":
+            sentiments = Sentiment.objects.all().select_related('sentence', 'query')
+            data_list = []
+
+            for sentiment_obj in sentiments:
+                data_list.append({
+                    'query': sentiment_obj.query.query,
+                    'sentence': sentiment_obj.sentence.sentence,
+                    'relation': sentiment_obj.get_relation_display(), 
+                })
+            data = json.dumps(data_list, indent=4)
+            
+            response = HttpResponse(data, content_type='application/json')
+            response['Content-Disposition'] = 'attachment; filename="all_sentiments.json"'
+            
+            return response
+        
+        elif action == "delete_all_sentiments":
+            Sentiment.objects.all().delete()
+            Query.objects.all().delete()
+
+        elif action == "delete_a_query":
+            query_id = request.POST.get('query_id')
+            delete_query = get_query_by_id(query_id)
+            delete_query.delete()
+
+        elif action == "remove_a_sentiment":
+            sentiment_id = request.POST.get('sentiment_id')
+            delete_sentiment_by_id(sentiment_id)
+
+        return redirect('admin-sentiment')
+
     return render(request, 'config/config-sentiment.html', context)

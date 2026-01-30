@@ -3,3 +3,7 @@ db.sqlite3
 .dummy.txt
 __pycache__/
 *.pyc
+
+# Virtual environments
+venv/
+.venv/

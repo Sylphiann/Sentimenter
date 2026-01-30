@@ -10,6 +10,7 @@ venv/
 # Git repo
 .git/
 .gitignore
+.github/
 
 # SQLite DB
 db.sqlite3

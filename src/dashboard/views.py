@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseForbidden
-from django.contrib.admin.views.decorators import staff_member_required
+from django.views.generic.edit import CreateView
+from django.contrib.auth import get_user_model, login, authenticate
+from django.contrib.auth.decorators import user_passes_test
+from django.urls import reverse_lazy
+from .forms import DashboardRegistrationForm
 import json
 from query.models import (
     get_all_sentences,
@@ -15,10 +19,53 @@ from query.models import (
     delete_all_queries
 )
 
+def is_admin(user):
+    # --- DEBUGGING START ---
+    print(f"\n=== PERMISSION CHECK DEBUG ===")
+    print(f"Checking User: {user}")
+    print(f"Is Authenticated? {user.is_authenticated}")
+    print(f"Is Platform Admin? {getattr(user, 'is_platform_admin', 'Attribute Missing')}")
+    print("============================\n")
+    # --- DEBUGGING END ---
+    
+    return user.is_authenticated and getattr(user, 'is_platform_admin', False)
 
-@staff_member_required
+
+class DashboardRegistrationView(CreateView):
+    template_name = 'dashboard/register.html'
+    form_class = DashboardRegistrationForm
+    success_url = reverse_lazy('main')
+
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.is_platform_admin = True
+        user.save()
+        
+        # Auto-login after registration
+        login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
+
+        # --- DEBUGGING START ---
+        print("\n=== REGISTRATION DEBUG ===")
+        print(f"1. User ID: {user.pk}")
+        print(f"2. User is_active: {user.is_active}")
+        print(f"3. Request User is Authenticated? {self.request.user.is_authenticated}")
+        print(f"4. Session Key: {self.request.session.session_key}")
+        print("==========================\n")
+        # --- DEBUGGING END ---
+        
+        return super().form_valid(form)
+    
+    def dispatch(self, request, *args, **kwargs):
+        # Security: If an admin ALREADY exists, block access to this page
+        User = get_user_model()
+        if User.objects.filter(is_platform_admin=True).exists():
+            return redirect('main')
+        return super().dispatch(request, *args, **kwargs)
+
+
+@user_passes_test(is_admin, login_url='login')
 def admin_sentence_view(request):
-    if not request.user.is_superuser:
+    if not request.user.is_platform_admin:
         return HttpResponseForbidden("You do not have the required permissions of a superuser status to access this tool.")
 
     context = {}
@@ -68,9 +115,9 @@ def admin_sentence_view(request):
 
 
 
-@staff_member_required
+@user_passes_test(is_admin, login_url='login')
 def admin_sentiment_view(request):
-    if not request.user.is_superuser:
+    if not request.user.is_platform_admin:
         return HttpResponseForbidden("You do not have the required permissions of a superuser status to access this tool.")
 
     context = {}

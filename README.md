@@ -95,11 +95,11 @@ The search implementation is located in `src/query/bm25.py` and can be customize
 
 For detailed documentation on the bm25s package, including available BM25 variants (Robertson, ATIRE, BM25L, BM25+, Lucene) and advanced configuration options, visit the [bm25s documentation](https://bm25s.github.io/).
 
-## Future Plans
+## Future Plans `[0.8.X]`
 
-- Rewrite the whole admin role, including first-time registration and dashboard panel
-   - replace /config/ with /admin/ to follow with this update
-- Rewrite the frontend with Django 6.0 partial templates and HTMX
+- [x] Rewrite the whole admin role, including first-time registration and dashboard panel
+- [x] replace `/config/` with `/dashboard/` to follow with this update
+- [ ] Rewrite the frontend with Django 6.0 partial templates and HTMX
 
 ## Project Structure
 

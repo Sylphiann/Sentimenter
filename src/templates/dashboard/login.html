@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Register - Login Dashboard{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 150px);">
+    <div class="card shadow-sm border-0" style="width: 100%; max-width: 400px; border-radius: 12px;">
+        <div class="card-body p-4">
+            <h2 class="text-center mb-4 fw-bold" style="color: var(--text-primary);">Login to Dashboard</h2>
+            
+            <form method="POST"> 
+                {% csrf_token %}
+
+                {% if form.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {% for error in form.non_field_errors %}
+                            {{ error }}
+                        {% endfor %}
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                
+                <div class="mb-3">
+                    <label for="username" class="form-label fw-medium">Username</label>
+                    <input type="text" 
+                           name="username" 
+                           id="username" 
+                           class="form-control {% if form.username.errors %}is-invalid{% endif %}" 
+                           placeholder="Enter your username" 
+                           required>
+                </div>
+
+                <div class="mb-4">
+                    <label for="password" class="form-label fw-medium">Password</label>
+                    <input type="password" 
+                           name="password" 
+                           id="password" 
+                           class="form-control {% if form.password.errors %}is-invalid{% endif %}" 
+                           placeholder="••••••••" 
+                           required>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary py-2">
+                        Log in
+                    </button>
+                </div>
+                
+                <input type="hidden" name="next" value="{{ next }}">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

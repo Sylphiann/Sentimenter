@@ -64,7 +64,7 @@ def admin_sentence_view(request):
         
         return redirect('admin-sentence')
     
-    return render(request, 'config/config-sentence.html', context)
+    return render(request, 'dashboard/dashboard-sentence.html', context)
 
 
 
@@ -129,4 +129,4 @@ def admin_sentiment_view(request):
 
         return redirect('admin-sentiment')
 
-    return render(request, 'config/config-sentiment.html', context)
+    return render(request, 'dashboard/dashboard-sentiment.html', context)

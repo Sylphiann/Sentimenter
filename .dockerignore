@@ -22,3 +22,5 @@ staticfiles/
 # OS files
 .DS_Store
 *.log
+
+.dummy.txt

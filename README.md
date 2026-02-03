@@ -25,14 +25,7 @@ A Django-based sentiment label annotator application with query functionality.
 
 4. The application will be available at `http://localhost:8000`.
 
-5. A default superuser account is automatically created with the following credentials:
-   - Username: `admin`
-   - Email: `admin@example.com`
-   - Password: `admin123`
-
-   To change these credentials, modify the environment variables in `docker-compose.yml` before starting the container.
-
-6. To stop the application:
+5. To stop the application:
    ```bash
    docker-compose down
    ```
@@ -66,12 +59,8 @@ A Django-based sentiment label annotator application with query functionality.
 
 5. Run database migrations:
    ```bash
+   python manage.py makemigrations # If you've made changes
    python manage.py migrate
-   ```
-
-6. (Optional) Create a superuser account for admin access:
-   ```bash
-   python manage.py createsuperuser
    ```
 
 7. Start the development server:
@@ -95,17 +84,15 @@ The search implementation is located in `src/query/bm25.py` and can be customize
 
 For detailed documentation on the bm25s package, including available BM25 variants (Robertson, ATIRE, BM25L, BM25+, Lucene) and advanced configuration options, visit the [bm25s documentation](https://bm25s.github.io/).
 
-## Future Plans `[0.8.X]`
+## Future Plans `[0.9.X]`
 
-- [x] Rewrite the whole admin role, including first-time registration and dashboard panel
-- [x] replace `/config/` with `/dashboard/` to follow with this update
 - [ ] Rewrite the frontend with Django 6.0 partial templates and HTMX
 
 ## Project Structure
 
 - `src/` - Django application source code
 - `src/query/` - Main module
-- `src/config/` - Admin utilities module
+- `src/dashboard/` - Dashboard utilities module, including Auth
 - `src/static/` - Static files (CSS, JavaScript)
 - `src/templates/` - HTML templates
 

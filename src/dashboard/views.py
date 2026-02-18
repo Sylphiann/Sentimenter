@@ -21,11 +21,11 @@ from query.models import (
 
 def is_admin(user):
     # --- DEBUGGING START ---
-    print(f"\n=== PERMISSION CHECK DEBUG ===")
-    print(f"Checking User: {user}")
-    print(f"Is Authenticated? {user.is_authenticated}")
-    print(f"Is Platform Admin? {getattr(user, 'is_platform_admin', 'Attribute Missing')}")
-    print("============================\n")
+    # print(f"\n=== PERMISSION CHECK DEBUG ===")
+    # print(f"Checking User: {user}")
+    # print(f"Is Authenticated? {user.is_authenticated}")
+    # print(f"Is Platform Admin? {getattr(user, 'is_platform_admin', 'Attribute Missing')}")
+    # print("============================\n")
     # --- DEBUGGING END ---
     
     return user.is_authenticated and getattr(user, 'is_platform_admin', False)
@@ -45,12 +45,12 @@ class DashboardRegistrationView(CreateView):
         login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
 
         # --- DEBUGGING START ---
-        print("\n=== REGISTRATION DEBUG ===")
-        print(f"1. User ID: {user.pk}")
-        print(f"2. User is_active: {user.is_active}")
-        print(f"3. Request User is Authenticated? {self.request.user.is_authenticated}")
-        print(f"4. Session Key: {self.request.session.session_key}")
-        print("==========================\n")
+        # print("\n=== REGISTRATION DEBUG ===")
+        # print(f"1. User ID: {user.pk}")
+        # print(f"2. User is_active: {user.is_active}")
+        # print(f"3. Request User is Authenticated? {self.request.user.is_authenticated}")
+        # print(f"4. Session Key: {self.request.session.session_key}")
+        # print("==========================\n")
         # --- DEBUGGING END ---
         
         return super().form_valid(form)

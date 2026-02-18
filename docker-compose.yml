@@ -1,11 +1,33 @@
-version: '3.9'
-
 services:
+  db:
+    image: postgres:15
+    container_name: postgresql
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432" 
+    environment:
+      - POSTGRES_DB=sentimenter_db
+      - POSTGRES_USER=sentimenter_user
+      - POSTGRES_PASSWORD=sentimenter_password
+
   web:
     build: .
-    container_name: django_app
+    command: sh -c "python src/manage.py migrate && python src/manage.py runserver 0.0.0.0:8000"
+    container_name: app
     volumes:
       - .:/app
     ports:
       - "8000:8000"
+    environment:
+      - POSTGRES_NAME=sentimenter_db
+      - POSTGRES_USER=sentimenter_user
+      - POSTGRES_PASSWORD=sentimenter_password
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
     restart: always
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:

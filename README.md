@@ -87,6 +87,7 @@ For detailed documentation on the bm25s package, including available BM25 varian
 ## Future Plans `[0.9.X]`
 
 - [ ] Rewrite the frontend with Django 6.0 partial templates and HTMX
+- [ ] Replace SQLite with PostgreSQL, removing `entrypoint.sh`
 
 ## Project Structure
 

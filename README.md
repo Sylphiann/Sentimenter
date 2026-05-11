@@ -3,10 +3,29 @@
 A Django-based sentiment label annotator application with query functionality.
 
 ## Prerequisites
+### Manual installation method or development purposes
+ - Python 3.12 or higher
+ - pip (Python package manager)
 
-- Python 3.12 or higher
-- pip (Python package manager)
-- Docker and Docker Compose (for Docker installation method)
+ ### Docker installation method
+- Docker and Docker Compose 
+
+## Security Warning
+
+> **⚠️ IMPORTANT: This project contains hardcoded development credentials that are NOT suitable for production use!**
+
+Before deploying or using this application in any real/public environment, you **MUST**:
+
+1. **Use environment variables** (e.g., via `python-dotenv`) to store sensitive settings instead of hardcoding them in `src/Sentimenter/settings.py`. At minimum, the following values should be moved to a `.env` file:
+   - `SECRET_KEY`. Generate a new, unique secret key (use `python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"`)
+   - `DATABASE_URL` or individual database credentials (`NAME`, `USER`, `PASSWORD`, `HOST`, `PORT`)
+
+2. **Set `DEBUG = False`** in production. Running with `DEBUG = True` exposes sensitive information and poses a severe security risk.
+
+3. **Configure `ALLOWED_HOSTS`** appropriately for your deployment domain.
+
+4. **Use a strong, unique password** for the database user. The current default (`sentimenter_password`) is publicly visible and insecure.
+
 
 ## Installation
 
@@ -17,6 +36,7 @@ A Django-based sentiment label annotator application with query functionality.
 2. Clone or navigate to the project directory.
 
 3. Build and start the application:
+
    ```bash
    docker-compose up --build
    ```
@@ -87,6 +107,7 @@ For detailed documentation on the bm25s package, including available BM25 varian
 ## Future Plans `[0.9.X]`
 
 - [x] Replace SQLite with PostgreSQL, removing `entrypoint.sh`
+- [x] Fix bug: First-time registration not auto-logging in
 - [ ] Rewrite the frontend with Django 6.0 partial templates and HTMX
 
 ## Project Structure

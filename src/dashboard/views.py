@@ -43,17 +43,9 @@ class DashboardRegistrationView(CreateView):
         
         # Auto-login after registration
         login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
-
-        # --- DEBUGGING START ---
-        # print("\n=== REGISTRATION DEBUG ===")
-        # print(f"1. User ID: {user.pk}")
-        # print(f"2. User is_active: {user.is_active}")
-        # print(f"3. Request User is Authenticated? {self.request.user.is_authenticated}")
-        # print(f"4. Session Key: {self.request.session.session_key}")
-        # print("==========================\n")
-        # --- DEBUGGING END ---
         
-        return super().form_valid(form)
+        self.object = user
+        return redirect(self.get_success_url())
     
     def dispatch(self, request, *args, **kwargs):
         # Security: If an admin ALREADY exists, block access to this page

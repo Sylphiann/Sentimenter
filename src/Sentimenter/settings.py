@@ -80,7 +80,7 @@ DATABASES = {
         'NAME': 'sentimenter_db',
         'USER': 'sentimenter_user',
         'PASSWORD': 'sentimenter_password',
-        'HOST': 'db',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }

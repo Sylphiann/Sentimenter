@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'template_partials',
     'query',
     'dashboard'
 ]
@@ -82,7 +81,7 @@ DATABASES = {
         'USER': 'sentimenter_user',
         'PASSWORD': 'sentimenter_password',
         'HOST': 'localhost',
-        'PORT': '5432',
+        'PORT': '5430',
     }
 }
 

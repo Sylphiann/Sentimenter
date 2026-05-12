@@ -4,7 +4,7 @@ A Django-based sentiment label annotator application with query functionality.
 
 ## Prerequisites
 ### Manual installation method or development purposes
- - Python 3.12 or higher
+ - Python 3.14.2 or higher
  - pip (Python package manager)
 
  ### Docker installation method
